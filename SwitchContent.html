@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+
+<!-- Fig. 16.5: SwitchContent.html -->
+<!-- Asynchronously display content without reloading the page. -->.
+<!-- Sanjivkumar Patel ICE 5 -->.
+<html>
+<head>
+   <meta charset = "utf-8">
+   <style type = "text/css">
+      .box { border: 1px solid black; padding: 10px }
+   </style>
+   <title>Switch Content Asynchronously</title>
+   <script>
+      var asyncRequest; // variable to hold XMLHttpRequest object
+
+      // set up event handlers
+      function registerListeners()
+      {
+         var img;
+         img = document.getElementById( "cpphtp" );
+         img.addEventListener( "mouseover", 
+            function() { getContent( "cpphtp.html" ); }, false ); 
+         img.addEventListener( "mouseout", clearContent, false ); 
+         img = document.getElementById( "iw3htp" );
+         img.addEventListener( "mouseover", 
+            function() { getContent( "iw3htp.html" ); }, false ); 
+         img.addEventListener( "mouseout", clearContent, false ); 
+         img = document.getElementById( "jhtp" );
+         img.addEventListener( "mouseover", 
+            function() { getContent( "jhtp.html" ); }, false ); 
+         img.addEventListener( "mouseout", clearContent, false ); 
+         img = document.getElementById( "vbhtp" );
+         img.addEventListener( "mouseover", 
+            function() { getContent( "vbhtp.html" ); }, false ); 
+         img.addEventListener( "mouseout", clearContent, false ); 
+         img = document.getElementById( "vcshtp" );
+         img.addEventListener( "mouseover", 
+            function() { getContent( "vcshtp.html" ); }, false );
+         img.addEventListener( "mouseout", clearContent, false ); 
+         img = document.getElementById( "javafp" );
+         img.addEventListener( "mouseover", 
+            function() { getContent( "javafp.html" ); }, false ); 
+         img.addEventListener( "mouseout", clearContent, false ); 
+      } // end function registerListeners
+
+      // set up and send the asynchronous request.
+      function getContent( url )
+      {
+         // attempt to create XMLHttpRequest object and make the request
+         try
+         {
+            asyncRequest = new XMLHttpRequest(); // create request object
+
+            // register event handler
+            asyncRequest.addEventListener(
+               "readystatechange", stateChange, false); 
+            asyncRequest.open( "GET", url, true ); // prepare the request
+            asyncRequest.send( null ); // send the request
+         } // end try
+         catch ( exception )
+         {
+            alert( "Request failed." );
+         } // end catch
+      } // end function getContent
+      
+      // displays the response data on the page
+      function stateChange()
+      {
+         if ( asyncRequest.readyState == 4 && asyncRequest.status == 200 )
+         {
+            document.getElementById( "contentArea" ).innerHTML = 
+               asyncRequest.responseText; // places text in contentArea
+         } // end if
+      } // end function stateChange
+
+      // clear the content of the box
+      function clearContent()
+      {
+         document.getElementById( "contentArea" ).innerHTML = "";
+      } // end function clearContent
+
+      window.addEventListener( "load", registerListeners, false );
+   </script>
+</head>
+<body>
+   <h1>Mouse over a player for more information.</h1>
+   <img id = "cpphtp" class="img" alt = "ROHIT SHARMA"
+      src = "images/thumbs/sachin.jpg">
+   <img id = "iw3htp" class="img" alt = "Rahul"
+      src = "images/thumbs/rahul.jpg">
+   <img id = "jhtp" class="img" alt = "Rohit Sharma"
+      src = "images/thumbs/rohit.jpg">
+   <img id = "vbhtp" class="img" alt = "Ravindra Jadeja"
+      src = "images/thumbs/ravindra.jpeg">
+   <img id = "vcshtp" class="img" alt = "Hardik Pandya" 
+      src = "images/thumbs/hardik.jpeg">
+   <img id = "javafp" class="img" alt = "Virat Kohli"
+      src = "images/thumbs/virat.jpg">
+   <div class = "box" id = "contentArea"></div>
+</body>
+</html>
